@@ -9,18 +9,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
-import com.example.myapplication.auth.screens.LandingPage
-import com.example.myapplication.auth.screens.LoginScreen
 import com.example.myapplication.items
 import com.example.myapplication.presentation.chat.ChatScreen
-import com.example.myapplication.presentation.home.HomePage
 import com.example.myapplication.presentation.settings.SettingsScreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -60,13 +55,16 @@ fun BottomNavigation() {
             }
         }
     ) {
-        NavHost(navController = navController, startDestination = Screens.ScreensHomeRoute.route) {
-            composable(Screens.ScreensHomeRoute.route) { HomePage(navController = navController) }
-            composable(Screens.ScreensChatRoute.route) { ChatScreen() }
-            composable(Screens.ScreensSettingsRoute.route) { SettingsScreen() }
-        }
+        NavigationHost(navController = navController)
     }
 }
 
 
-
+@Composable
+fun NavigationHost(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Screens.ScreensHomeRoute.route) {
+        homeGraph(navController=navController)
+        composable(Screens.ScreensChatRoute.route) { ChatScreen() }
+        composable(Screens.ScreensSettingsRoute.route) { SettingsScreen() }
+    }
+}

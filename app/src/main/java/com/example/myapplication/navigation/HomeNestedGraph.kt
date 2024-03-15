@@ -12,7 +12,6 @@ fun NavGraphBuilder.homeGraph(navController: NavController){
     navigation(
         route = Screens.ScreensHomeRoute.route,
         startDestination = Screens.ScreensProductsRoute.route){
-
         composable(route = Screens.ScreensProductsRoute.route){
             HomePage(navController = navController)
         }

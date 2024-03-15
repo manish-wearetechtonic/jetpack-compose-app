@@ -1,17 +1,10 @@
 package com.example.myapplication.auth.screens
 
-import Screens
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.example.myapplication.auth.AccessTokenValidator
@@ -32,8 +25,8 @@ fun LandingPage(navController: NavController) {
     }
 
     if (isLoggedIn.value) {
-        BottomNavigation()
+        BottomNavigation( )
     } else {
-        LoginScreen()
+        LoginScreen(navController)
     }
 }

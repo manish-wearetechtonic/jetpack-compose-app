@@ -1,5 +1,6 @@
 package com.example.myapplication.auth.screens
 
+import Screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,11 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.myapplication.auth.AccessTokenValidator
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -28,7 +31,6 @@ fun LoginScreen() {
         Button(
             onClick = {
 
-                // Dummy data for saving user credentials
                 val accessToken = "dummy_access_token"
                 val refreshToken = "dummy_refresh_token"
                 val accessTokenExpiry = System.currentTimeMillis() + 2 * 60 * 60 * 1000 // 2 hours
@@ -42,6 +44,13 @@ fun LoginScreen() {
                         accessTokenExpiry = accessTokenExpiry,
                         refreshTokenExpiry = refreshTokenExpiry
                     )
+                }
+                navController.navigate(Screens.ScreensLandingPageRoute.route){
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    restoreState = true
+                    launchSingleTop = true
                 }
 
             },
