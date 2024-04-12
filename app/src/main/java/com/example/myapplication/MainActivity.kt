@@ -16,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.auth.screens.LandingPage
 import com.example.myapplication.navigation.BottomNavigationItem
-import com.example.myapplication.navigation.homeGraph
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +28,6 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 NavHost(navController, startDestination = Screens.ScreensLandingPageRoute.route) {
                     composable(Screens.ScreensLandingPageRoute.route) { LandingPage(navController = navController) }
-                    homeGraph(navController)
                 }
             }
         }

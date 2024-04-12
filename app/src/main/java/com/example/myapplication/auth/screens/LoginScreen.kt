@@ -30,7 +30,6 @@ fun LoginScreen(navController: NavController) {
     ) {
         Button(
             onClick = {
-
                 val accessToken = "dummy_access_token"
                 val refreshToken = "dummy_refresh_token"
                 val accessTokenExpiry = System.currentTimeMillis() + 2 * 60 * 60 * 1000 // 2 hours
