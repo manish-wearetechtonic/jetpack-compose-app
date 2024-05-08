@@ -54,4 +54,11 @@ object AccessTokenValidator {
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences("access_tokens", Context.MODE_PRIVATE)
     }
+
+    fun isAccessTokenAvailable(context: Context): Boolean {
+        val sharedPreferences = getSharedPreferences(context)
+        val accessToken = sharedPreferences.getString(ACCESS_TOKEN, null)
+        return !accessToken.isNullOrEmpty()
+    }
+
 }
