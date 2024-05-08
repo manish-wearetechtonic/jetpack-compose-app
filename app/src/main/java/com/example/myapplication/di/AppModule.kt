@@ -1,8 +1,8 @@
 package com.example.myapplication.di
 
+import com.example.myapplication.auth.AuthRepository
+import com.example.myapplication.auth.AuthRepositoryImpl
 import com.example.myapplication.data.Api
-import com.example.myapplication.data.ProductRepository
-import com.example.myapplication.data.ProductRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +37,9 @@ object AppModule {
     }
 
     @Provides
-    fun  providerProductRepository(api: Api): ProductRepository{
-        return  ProductRepositoryImpl(api)
+    @Singleton
+    fun provideAuthRepository(api: Api):AuthRepository{
+        return AuthRepositoryImpl(api)
     }
+
 }

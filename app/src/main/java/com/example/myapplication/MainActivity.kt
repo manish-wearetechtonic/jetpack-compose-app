@@ -1,57 +1,59 @@
 package com.example.myapplication
 
-import Screens
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.auth.screens.LandingPage
-import com.example.myapplication.navigation.BottomNavigationItem
+import com.example.myapplication.auth.AccessTokenValidator
+import com.example.myapplication.auth.AuthRepository
+import com.example.myapplication.presentation.auth.LoginScreen
+import com.example.myapplication.presentation.home.HomeScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.BuildConfig
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.OkHttpClient
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var authRepository: AuthRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this)
+        }
+        OkHttpClient. Builder()
+            .addNetworkInterceptor(StethoInterceptor())
+            .build()
         setContent {
-            val navController = rememberNavController()
             MyApplicationTheme {
-                NavHost(navController, startDestination = Screens.ScreensLandingPageRoute.route) {
-                    composable(Screens.ScreensLandingPageRoute.route) { LandingPage(navController = navController) }
+                val navController = rememberNavController()
+                val isAccessTokenPresent = AccessTokenValidator.isAccessTokenAvailable(LocalContext.current)
+                Log.d("Access Token Present","$isAccessTokenPresent")
+                NavHost(navController, startDestination = if(isAccessTokenPresent) "home" else "login") {
+
+                    composable("login") {
+                        LoginScreen(navController =navController,authRepository=authRepository)
+                    }
+                    composable("home") {
+                        HomeScreen()
+                    }
                 }
+
             }
         }
     }
 }
 
 
-val items = listOf(
-    BottomNavigationItem(
-        route = Screens.ScreensHomeRoute.route,
-        title = "Home",
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
-    ),
-    BottomNavigationItem(
-        route = Screens.ScreensChatRoute.route,
-        title = "Chat",
-        selectedIcon = Icons.Filled.Email,
-        unselectedIcon = Icons.Outlined.Email,
-    ),
-    BottomNavigationItem(
-        route = Screens.ScreensSettingsRoute.route,
-        title = "Settings",
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-    ),
-)
+

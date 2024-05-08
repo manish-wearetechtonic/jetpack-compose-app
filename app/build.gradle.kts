@@ -77,6 +77,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.facebook.stetho:stetho-okhttp3:1.5.1")
 
     // Add Hilt dependencies
     implementation("com.google.dagger:hilt-android:2.48")

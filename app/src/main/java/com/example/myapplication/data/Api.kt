@@ -1,17 +1,22 @@
 package com.example.myapplication.data
 
-import com.example.myapplication.data.model.Product
-import com.example.myapplication.data.model.Products
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.example.myapplication.auth.model.LoginResponse
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
+
+data class LoginRequestBody(
+    val username: String,
+    val password: String,
+    val expiresInMins: Int = 30 // optional, defaults to 30
+)
 
 interface Api {
-    @GET("products")
-    suspend fun getProductsList(): Products
-
-    @GET("product/{productId}")
-    suspend fun getProductById(@Path("productId") productId: Int): Product
     companion object {
         const val BASE_URL = "https://dummyjson.com/"
     }
+
+    @Headers("Content-Type: application/json")
+    @POST("auth/login")
+    suspend fun login(@Body requestBody: LoginRequestBody): LoginResponse
 }
